@@ -1,8 +1,22 @@
 import React from "react";
-import {createRoot} from "react-dom"
+import { createRoot } from "react-dom/client";
 
-const heading=<h1>hello from jsx element</h1>
+import Header from "./componets/Header";
+import Body from "./componets/Body";
 
+const Applaout = () => {
+  return (
+    <div className="appLayout">
+      <div className="header-container">
+        <Header />
+      </div>
 
-const root=createRoot(document.getElementById("root"))
-root.render(heading)
+      <div>
+        <Body/>
+      </div>
+    </div>
+  );
+};
+
+const root = createRoot(document.getElementById("root"));
+root.render(<Applaout />);
