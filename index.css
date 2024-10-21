@@ -8,7 +8,7 @@
   }
   .header-container{
     
-    margin: 60px;
+    margin: 0px 40px;
   }
   .navbar-logo img {
     height: 40px;
@@ -37,10 +37,11 @@
   }
 
   /* reto-card-container */
+
   .reto-card-container{
-    margin: 40px;
+        margin-left: 300;
         display: flex;
-        justify-content: space-between;
+        
         flex-wrap: wrap;
   }
 
@@ -53,6 +54,7 @@
     transition: box-shadow 0.3s ease-in-out;
     background-color: #fff;
     margin: 20px;
+   
   }
   
   .food-card:hover {
@@ -66,6 +68,7 @@
   }
   
   .food-card-content {
+    margin-top: 30px;
     padding: 15px;
   }
   
@@ -104,4 +107,51 @@
   .food-card-order-button:hover {
     background-color: #ff4500;
   }
+  .profile-img-div {
+    position: relative;
+    width: 300px;
+    height: 200px;
+    /* Add a background color or image for visibility */
+    background-color: #f0f0f0;
+  }
   
+  .logo-div {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff4500;
+    bottom: 10px;  /* Position from bottom */
+    left: 10px;   /* Position from right */
+    border-radius: 40%;  /* Optional: makes the logo circular */
+  }
+  .logo-div img{
+    width: 30px;
+    height: 30px;
+  }
+  .search{
+    margin: 40px;
+  }
+  .first-card-container{
+    display: flex;
+  }
+  .whatsInyourMind-container {
+    display: flex;              /* Enable Flexbox */
+    flex-direction: row;       /* Arrange items in a row (default) */
+    flex-wrap: wrap;           /* Allow items to wrap onto the next line if necessary */
+    justify-content: flex-start; /* Align items at the start of the container */
+}
+.whatsInyourMind-container{
+   margin: 10px;
+   padding: 10px;
+  
+}
+  .whatsInyourMind-img-container, img{
+    width: 200px;
+    height: 170px;
+  }
+  .about_card{
+    width: 150px;
+    height: 300px;
+    border: solid;
+    border-radius: 1px;
+  }

@@ -1,21 +1,29 @@
+const Restrocard = ({ resto }) => {
 
+  const { name, cuisines, cloudinaryImageId, avgRating, areaName, locality } =resto;
 
-
-const Restrocard = ({foodobj}) => {
-const {name, price, imageUrl, description }=foodobj
-
+  let cusine = cuisines.map((val) => val.name);
   return (
+  <div className="card-container">
     <div className="food-card">
-      <img src={imageUrl} alt={name} className="food-card-image" />
+      <div className="profile-img-div">
+        <img
+      src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`} 
+          className="food-card-image"
+          alt={name}
+        />
+      </div>
+
       <div className="food-card-content">
-        <h2 className="food-card-title">{name}</h2>
-        <p className="food-card-description">{description}</p>
-        <div className="food-card-footer">
-          <span className="food-card-price">${price}</span>
-          <button className="food-card-order-button">Order Now</button>
-        </div>
+        <h2>{name}</h2>
+        <h3 className="food-card-title">{avgRating}</h3>
+        <p className="food-card-description">{locality}</p>
+        <p className="food-card-description">{cusine}</p>
+        <p className="food-card-description">{areaName}</p>
       </div>
     </div>
-  );    
+  </div>
+  );
 };
+
 export default Restrocard;
