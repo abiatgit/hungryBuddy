@@ -3,7 +3,7 @@ import React from 'react'
 function Shimmer() {
   return (
     <div>
-      <h1>Shimmer</h1>
+      <h1>Shimmer........</h1>
     </div>
   )
 }

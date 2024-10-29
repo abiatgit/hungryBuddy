@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import Restrocard from "./Restrocard";
 import WhatsInyourMind from "./whatsInyourMind";
 import {Link} from "react-router-dom"
+import useStatus from "../utils/useStatus"
+const onlineStaus =useStatus()
+
+
 const Body = () => {
   const apiURL =
     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
@@ -10,6 +14,8 @@ const Body = () => {
   const [filterdrestoList, setfilterdrestoList] = useState([]);
   const [searchdata, setsearchdata] = useState("");
   const [whatmind, setwhatmind] = useState([]);
+  const onlineStaus=useStatus()
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +39,17 @@ const Body = () => {
     fetchData();
   }, []);
 
+
+if(onlineStaus===false){
+ return ( <div>
+    <h1>you dont have internet</h1>
+  </div>)
+}
   return restoList.length === 0 ? (
     <h1>loading....</h1>
   ) : (
     <div className="body-div">
+  
       <div>hello</div>
       <div className="first-card-container">
         {whatmind.map((card) => {
