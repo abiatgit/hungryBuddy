@@ -1,59 +1,45 @@
 import { useState, useEffect } from "react";
 import Restrocard from "./Restrocard";
 import WhatsInyourMind from "./whatsInyourMind";
-import {Link} from "react-router-dom"
-import useStatus from "../utils/useStatus"
-const onlineStaus =useStatus()
-
+import { Link } from "react-router-dom";
+import useStatus from "../utils/useStatus";
+import useAllRestoList from "../utils/useAllrestolist.js";
+import { index } from "cheerio/dist/commonjs/api/traversing";
 
 const Body = () => {
-  const apiURL =
-    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
-
-  const [restoList, setrestoList] = useState([]);
-  const [filterdrestoList, setfilterdrestoList] = useState([]);
+  const onlineStaus = useStatus();
   const [searchdata, setsearchdata] = useState("");
-  const [whatmind, setwhatmind] = useState([]);
-  const onlineStaus=useStatus()
+  const {
+    restoList,
+    filterdrestoList,
+    error,
+    isLoading,
+    whatmind,
+    setrestoList,
+    setfilterdrestoList,
+  } = useAllRestoList();
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(apiURL);
-        const jsonData = await response.json();
-        setwhatmind(jsonData?.data?.cards[0]?.card?.card?.imageGridCards?.info);
+  if (onlineStaus === false) {
+    return (
+      <div>
+        <h1>you dont have internet</h1>
+      </div>
+    );
+  }
 
-        setrestoList(
-          jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-            ?.restaurants
-        );
-        setfilterdrestoList(
-          jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-            ?.restaurants
-        );
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
-    };
-    fetchData();
-  }, []);
-
-
-if(onlineStaus===false){
- return ( <div>
-    <h1>you dont have internet</h1>
-  </div>)
+if(isLoading){
+  return <h1>Loading</h1>
 }
-  return restoList.length === 0 ? (
-    <h1>loading....</h1>
-  ) : (
-    <div className="body-div">
+  if(error){
+    return <h1>Error:{error.message}</h1>
+  }
   
-      <div>hello</div>
+ return (
+    <div className="body-div">
       <div className="first-card-container">
         {whatmind.map((card) => {
-          return <WhatsInyourMind pro={card} />;
+          return <WhatsInyourMind key={card.id || index} pro={card} />;
         })}
       </div>
 
@@ -61,7 +47,7 @@ if(onlineStaus===false){
         <form>
           <input
             type="type"
-            f
+            
             placeholder="Search..."
             value={searchdata}
             onChange={(e) => {
@@ -104,8 +90,12 @@ if(onlineStaus===false){
 
       <div className="reto-card-container">
         {filterdrestoList.map((restaurant, index) => (
-          
-          <Link key={restaurant.info.id} to ={"/restaurants/"+restaurant.info.id}><Restrocard  resto={restaurant.info} /></Link>
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+            <Restrocard resto={restaurant.info} />
+          </Link>
         ))}
       </div>
     </div>

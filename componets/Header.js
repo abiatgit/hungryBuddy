@@ -10,16 +10,16 @@ const Header = () => {
    
 
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
+    <nav className="">
+      <div className="">
         {/* <img src="/path/to/your/logo.png" alt="Logo" /> */}
         <h1>hungryBuddy</h1>
       </div>
-      <ul className="navbar-links">
+      <ul className="">
         <li>
           OnlineStatus:{onlineStaus?"good":"bad"}
         </li>
-        <li>
+        <li >
           <Link to="/">Home</Link>
         </li>
         <li>
@@ -33,6 +33,9 @@ const Header = () => {
         </li>
         <li>
           <Link to="/grocery">Grocery</Link>
+        </li>
+        <li>
+          <Link to="/taxi">Hire a car</Link>
         </li>
       </ul>
       <div>

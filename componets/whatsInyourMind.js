@@ -3,7 +3,7 @@ import React from "react";
 function WhatsInyourMind(pro) {
   const imgId = pro.pro.imageId;
 
-  console.log(imgId);
+
 
   return (
     

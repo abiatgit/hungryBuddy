@@ -2,10 +2,9 @@ import React from "react";
 
 const Grocery = () => {
   return (
-    <h1>
-      Grocery Grocery Grocery Grocery Grocery Grocery Grocery Grocery Grocery
-      Grocery Grocery Grocery Grocery Grocery Grocery Grocery Grocery Grocery
-    </h1>
+    <div className="bg-blue-500 text-white p-4 m-2">
+      Test Tailwind
+    </div>
   );
 };
 
