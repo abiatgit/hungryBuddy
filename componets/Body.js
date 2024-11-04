@@ -3,7 +3,8 @@ import Restrocard from "./Restrocard";
 import WhatsInyourMind from "./whatsInyourMind";
 import {Link} from "react-router-dom"
 import useStatus from "../utils/useStatus"
-const onlineStaus =useStatus()
+
+import TopRestoCard from "../componets/topRestoCard"
 
 
 const Body = () => {
@@ -13,6 +14,7 @@ const Body = () => {
   const [restoList, setrestoList] = useState([]);
   const [filterdrestoList, setfilterdrestoList] = useState([]);
   const [searchdata, setsearchdata] = useState("");
+  const [topResto,settopResto]=useState("")
   const [whatmind, setwhatmind] = useState([]);
   const onlineStaus=useStatus()
 
@@ -22,7 +24,10 @@ const Body = () => {
       try {
         const response = await fetch(apiURL);
         const jsonData = await response.json();
+    
         setwhatmind(jsonData?.data?.cards[0]?.card?.card?.imageGridCards?.info);
+        settopResto(jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+    
 
         setrestoList(
           jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
@@ -48,17 +53,24 @@ if(onlineStaus===false){
   return restoList.length === 0 ? (
     <h1>loading....</h1>
   ) : (
-    <div className="body-div">
-  
-      <div>hello</div>
-      <div className="first-card-container">
-        {whatmind.map((card) => {
-          return <WhatsInyourMind pro={card} />;
-        })}
+    
+    <div className="overflow-x-auto p-4">
+ <h1 className="font-bold text-2xl text-gray-800">What's on your mind?</h1>
+ <div className="flex flex-nowrap overflow-x-auto m-5 p-5 w-full">
+  {whatmind.map((card) => (
+    <WhatsInyourMind key={card.id} pro={card} />
+  ))}
+</div>
+      <h1 className="font-bold text-2xl text-gray-800">Top restaurant chains in Bangalore</h1>
+      <div className="flex overflow-x-auto p-4">
+   {   topResto.map((item)=>{
+  return   <TopRestoCard pro={item}/>
+      })}
+      
       </div>
 
-      <div className="search">
-        <form>
+      <div className="m-5 flex items-center justify-start ">
+        <form className="">
           <input
             type="type"
             f
@@ -67,11 +79,11 @@ if(onlineStaus===false){
             onChange={(e) => {
               setsearchdata(e.target.value);
             }}
-            className="search-input"
+            className="w-100 px-4 py-2 text-gray-700 bg-white border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <button
             type="button"
-            className="search-button"
+            className="m-5 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50"
             onClick={() => {
               let fileterddata = restoList.filter((val) => {
                 return val.info.name
@@ -86,10 +98,10 @@ if(onlineStaus===false){
           </button>
         </form>
 
-        <div>
+        <div className="">
           <button
             type="button"
-            className="search-button"
+            className="m-5 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50"
             onClick={() => {
               let Newfileterddata = restoList.filter((val) => {
                 return val.info.avgRating > 4.3;
@@ -102,7 +114,7 @@ if(onlineStaus===false){
         </div>
       </div>
 
-      <div className="reto-card-container">
+      <div className="flex m-5 p-5 flex-wrap ">
         {filterdrestoList.map((restaurant, index) => (
           
           <Link key={restaurant.info.id} to ={"/restaurants/"+restaurant.info.id}><Restrocard  resto={restaurant.info} /></Link>
