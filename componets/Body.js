@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import Restrocard from "./Restrocard";
+import Restrocard, { promotedCard } from "./Restrocard";
 import WhatsInyourMind from "./whatsInyourMind";
-import {Link} from "react-router-dom"
-import useStatus from "../utils/useStatus"
-
-import TopRestoCard from "../componets/topRestoCard"
+import { Link } from "react-router-dom";
+import useStatus from "../utils/useStatus";
+import TopRestoCard from "../componets/topRestoCard";
 
 
 const Body = () => {
@@ -14,20 +13,22 @@ const Body = () => {
   const [restoList, setrestoList] = useState([]);
   const [filterdrestoList, setfilterdrestoList] = useState([]);
   const [searchdata, setsearchdata] = useState("");
-  const [topResto,settopResto]=useState("")
+  const [topResto, settopResto] = useState("");
   const [whatmind, setwhatmind] = useState([]);
-  const onlineStaus=useStatus()
-
+  // const onlineStaus = useStatus();
+  const NewPromCArd = promotedCard(Restrocard);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(apiURL);
         const jsonData = await response.json();
-    
+
         setwhatmind(jsonData?.data?.cards[0]?.card?.card?.imageGridCards?.info);
-        settopResto(jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-    
+        settopResto(
+          jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+            ?.restaurants
+        );
 
         setrestoList(
           jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
@@ -44,36 +45,41 @@ const Body = () => {
     fetchData();
   }, []);
 
-
-if(onlineStaus===false){
- return ( <div>
-    <h1>you dont have internet</h1>
-  </div>)
-}
+  // if (onlineStaus === false) {
+  //   return (
+  //     <div>
+  //       <h1>you dont have internet</h1>
+  //     </div>
+  //   );
+  // }
   return restoList.length === 0 ? (
     <h1>loading....</h1>
   ) : (
-    
     <div className="overflow-x-auto p-4">
- <h1 className="font-bold text-2xl text-gray-800">What's on your mind?</h1>
- <div className="flex flex-nowrap overflow-x-auto m-5 p-5 w-full">
-  {whatmind.map((card) => (
-    <WhatsInyourMind key={card.id} pro={card} />
-  ))}
-</div>
-      <h1 className="font-bold text-2xl text-gray-800">Top restaurant chains in Bangalore</h1>
-      <div className="flex overflow-x-auto p-4">
-   {   topResto.map((item)=>{
-  return   <TopRestoCard pro={item}/>
-      })}
-      
+      <h1 className="font-bold text-2xl text-gray-800">What's on your mind?</h1>
+      <div className="flex flex-nowrap overflow-x-auto m-5 p-5 w-full">
+        {whatmind.map((card) => (
+          <WhatsInyourMind key={card.id} pro={card} />
+        ))}
+      </div>
+      <h1 className="font-bold text-2xl text-gray-800">
+        Top restaurant chains in Bangalore
+      </h1>
+      <div className="flex overflow-x-auto p-4 w-full">
+        {topResto.map((item) => {
+          return (
+            <Link key={item.info.id} to={"/restaurants/" + item.info.id}>
+              <TopRestoCard pro={item} />
+            </Link>
+          );
+        })}
       </div>
 
       <div className="m-5 flex items-center justify-start ">
         <form className="">
           <input
             type="type"
-            f
+            
             placeholder="Search..."
             value={searchdata}
             onChange={(e) => {
@@ -114,10 +120,16 @@ if(onlineStaus===false){
         </div>
       </div>
 
-      <div className="flex m-5 p-5 flex-wrap ">
+      <div className="flex m-5 p-5 flex-wrap">
+  
         {filterdrestoList.map((restaurant, index) => (
-          
-          <Link key={restaurant.info.id} to ={"/restaurants/"+restaurant.info.id}><Restrocard  resto={restaurant.info} /></Link>
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurants/" + restaurant.info.id}
+          >
+{  restaurant.info.avgRating >= 4.5?  <NewPromCArd resto={restaurant.info} />: <Restrocard resto={restaurant.info}/> 
+              }
+          </Link>
         ))}
       </div>
     </div>

@@ -4,7 +4,7 @@ import useStatus from "../utils/useStatus";
 import biteLogo from '../utils/img/bite.svg';
 
 const Header = () => {
-  const onlineStaus = useStatus();
+ 
   const [btn, setbtn] = useState("login");
 
   return (
