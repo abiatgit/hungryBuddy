@@ -1,12 +1,17 @@
+import { useContext } from "react";
+import IMG_URL from "../utils/constant"
+import userData from "../utils/UserContext";
 const TopRestoCard = ({ pro }) => {
-  console.log(`my pro${pro}`);
+
+  const {userName}=useContext(userData)
+
   const { avgRating, name, cloudinaryImageId, areaName } = pro.info;
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl mx-5  ">
      <div className="">
      <img
         className="object-cover"
-        src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
+        src={IMG_URL+cloudinaryImageId}
         alt={name}
       />
      </div>
@@ -20,6 +25,7 @@ const TopRestoCard = ({ pro }) => {
           <span className="text-gray-600 font-semibold">{avgRating}</span>
         </div>
         <p className="text-gray-600">{areaName}</p>
+        <p>{userName}</p>
       </div>
     </div>
   )

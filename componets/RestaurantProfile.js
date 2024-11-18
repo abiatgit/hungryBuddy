@@ -7,9 +7,11 @@ import RestaurantCategory from "./RestaurantCategory.js";
 import { Menu_Api } from "../utils/constant";
 
 const ResturantProfile = () => {
+  const [activeIndex, setActiveIndex] = useState(null);
+  
   const { resId } = useParams();
   const restProfileList = useRestuarant(resId);
-  const [isOpen, setIsOpen] = useState(false);
+
 
   if (restProfileList === null) return <Shimeer />;
 
@@ -45,8 +47,17 @@ const ResturantProfile = () => {
 
    </div>
     <div >
-    {itemCategory.map((c, v) => {
-        return <RestaurantCategory item ={c.card.card} />;
+    {itemCategory.map((c, index) => {
+      //  onClick={() => {
+      //   return btn === "login" ? setbtn("logout") : setbtn("login");
+      // }}
+   
+        return <RestaurantCategory
+        key={c.card.card.title}
+        item ={c.card.card}  
+        itemShow={index===activeIndex?true:false}  
+        setActiveIndex={()=>(activeIndex===index ? setActiveIndex(null):setActiveIndex(index))}
+         />;
       })}
     </div>
     </div>

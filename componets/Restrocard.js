@@ -1,6 +1,13 @@
+import { useContext } from "react";
+import UserContext from "../utils/UserContext";
+import userData from "../utils/UserContext";
+
 const Restrocard = ({ resto }) => {
+  const {userName}=useContext(userData)
   const { name, cuisines, cloudinaryImageId, avgRating, areaName, locality } =
     resto;
+
+   
 
   let cusine = cuisines.map((val) => val.name);
   return (
@@ -19,6 +26,8 @@ const Restrocard = ({ resto }) => {
         <p className="text-sm text-gray-600 mb-1">{locality}</p>
         <p className="food-card-description">{cusine}</p>
         <p className="food-card-description">{areaName}</p>
+        <p>{userName}</p>
+        
       </div>
     </div>
   );

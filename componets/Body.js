@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Restrocard, { promotedCard } from "./Restrocard";
 import WhatsInyourMind from "./whatsInyourMind";
 import { Link } from "react-router-dom";
 import useStatus from "../utils/useStatus";
 import TopRestoCard from "../componets/topRestoCard";
-
-
+import userData from "../utils/UserContext";
 const Body = () => {
+  const {setNewUserName,userName}=useContext(userData)
   const apiURL =
     "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9352403&lng=77.624532&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
@@ -19,9 +19,11 @@ const Body = () => {
   const NewPromCArd = promotedCard(Restrocard);
 
   useEffect(() => {
+ 
+    const controller = new AbortController();
     const fetchData = async () => {
       try {
-        const response = await fetch(apiURL);
+        const response = await fetch(apiURL,{ signal: controller.signal });
         const jsonData = await response.json();
 
         setwhatmind(jsonData?.data?.cards[0]?.card?.card?.imageGridCards?.info);
@@ -43,6 +45,7 @@ const Body = () => {
       }
     };
     fetchData();
+    return () => controller.abort();
   }, []);
 
   // if (onlineStaus === false) {
@@ -105,6 +108,7 @@ const Body = () => {
         </form>
 
         <div className="">
+        
           <button
             type="button"
             className="m-5 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50"
